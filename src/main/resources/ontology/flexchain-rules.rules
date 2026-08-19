@@ -1,0 +1,24 @@
+@prefix flex: <http://flexchain.com/ontology#> .
+
+# Regle 1 : un produit fragile expose a plus de 25 degres necessite un
+# changement de camion. Le seuil (25) correspond a
+# flex:fragileTemperatureThresholdCelsius documente dans l'ontologie.
+[fragileHighTemperatureRule:
+    (?order flex:isFragile true)
+    (?order flex:currentTemperatureCelsius ?t)
+    greaterThan(?t, 25)
+    ->
+    (?order flex:requiresTruckChange true)
+]
+
+# Regle 2 : chainee sur le fait DERIVE par la regle 1 (et non sur une
+# donnee brute) : si un changement de camion est necessaire pour une
+# commande fragile, le camion de remplacement doit etre refrigere.
+# Cette chaine (regle 2 consomme la conclusion de la regle 1) demontre
+# un veritable raisonnement par inference, pas une simple condition.
+[refrigerationNeededRule:
+    (?order flex:requiresTruckChange true)
+    (?order flex:isFragile true)
+    ->
+    (?order flex:requiresRefrigeratedTruck true)
+]

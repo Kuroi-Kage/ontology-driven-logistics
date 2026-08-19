@@ -1,0 +1,31 @@
+// Modele de demonstration du reseau logistique FlexChain
+network "DemoNetwork" {
+
+    warehouse W1 {
+        name: "Warehouse A"
+        location: "Antananarivo"
+        latitude: -18.8792
+        longitude: 47.5079
+    }
+
+    truck T1 {
+        code: "TRUCK-01"
+        driver: "Jean"
+        capacity: 12.0
+        status: AVAILABLE
+    }
+
+    truck T2 {
+        code: "TRUCK-02"
+        driver: "Paul"
+        capacity: 10.0
+        status: AVAILABLE
+    }
+
+    order O1 {
+        reference: "ORD-001"
+        destination: "Toamasina"
+        warehouse: W1
+        status: PENDING
+    }
+}

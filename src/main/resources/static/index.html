@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FlexChain</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div>
+        <strong>FLEXCHAIN</strong>
+        <span>Terrain de démonstration</span>
+    </div>
+
+    <div class="status">
+        ● Système actif
+    </div>
+</header>
+
+
+<main>
+
+    <!-- ==================================================
+         SMA
+    =================================================== -->
+
+    <section class="panel sma-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h1>SMA</h1>
+            </div>
+
+            <div class="sma-actions">
+
+    <button type="button" id="addTruckBtn">
+        + Camion
+    </button>
+
+    <button type="button" id="addWarehouseBtn">
+        + Entrepôt
+    </button>
+
+    <button
+        type="button"
+        class="primary"
+        id="breakdownBtn"
+    >
+        Panne
+    </button>
+
+    <button
+        type="button"
+        id="orchestratorToggleBtn"
+        class="orchestrator-btn"
+    >
+        Orchestrateur : …
+    </button>
+
+</div>
+
+        </div>
+
+        <div id="orchestratorStatus" class="orchestrator-status"></div>
+
+
+        <!-- TERRAIN -->
+
+        <div class="sma-field">
+
+            <!-- Coordinator -->
+
+            <div
+                class="agent coordinator"
+                id="coordinator"
+            >
+                <strong>Coordinator</strong>
+            </div>
+
+
+            <!-- Capital -->
+
+            <div
+                class="agent capital"
+                id="capital"
+            >
+                <strong>Capital</strong>
+            </div>
+
+
+            <!-- Lignes de communication -->
+
+            <div
+                class="communication"
+                id="communication"
+            ></div>
+
+
+            <!-- Message -->
+
+            <div
+                class="sma-message"
+                id="smaMessage"
+            >
+                En attente
+            </div>
+
+        </div>
+
+
+        <!-- TRACE -->
+
+        <div class="trace">
+
+            <div class="trace-title">
+                Communication
+            </div>
+
+            <div
+                id="negotiationLog"
+                class="log"
+            >
+                —
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         IDM
+    =================================================== -->
+
+    <section class="panel idm-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h1>IDM</h1>
+            </div>
+
+            <div>
+
+                <button type="button" id="loadSampleBtn">
+                    Exemple
+                </button>
+
+                <button
+                    type="button"
+                    class="primary"
+                    id="compileBtn"
+                >
+                    Compiler
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SOURCE -->
+
+        <div class="idm-source">
+
+            <div class="section-title">
+                Modèle .flexnet
+            </div>
+
+            <textarea
+                id="idmSource"
+                spellcheck="false"
+                placeholder="Écris ton modèle FlexNet..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- PIPELINE -->
+
+        <div class="idm-pipeline">
+
+            <div class="section-title">
+                Pipeline IDM
+            </div>
+
+
+            <div class="pipeline">
+
+                <div
+                    class="idm-node"
+                    id="idm-lexer"
+                >
+                    <strong>Lexer</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div
+                    class="idm-node"
+                    id="idm-parser"
+                >
+                    <strong>Parser</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div
+                    class="idm-node"
+                    id="idm-validator"
+                >
+                    <strong>Validation</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div
+                    class="idm-node"
+                    id="idm-model"
+                >
+                    <strong>Model</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div
+                    class="idm-node"
+                    id="idm-java"
+                >
+                    <strong>Java</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULTAT -->
+
+        <div class="idm-result">
+
+            <div class="section-title">
+                Résultat
+            </div>
+
+            <div
+                id="idmInfo"
+                class="idm-info"
+            >
+                Aucun modèle compilé.
+            </div>
+
+            <pre
+                id="generatedJava"
+            >Code</pre>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ==================================================
+     MODALE (remplace prompt()/confirm())
+=================================================== -->
+
+<div
+    class="modal-overlay hidden"
+    id="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+>
+    <form class="modal" id="modalForm">
+
+        <h2 id="modalTitle">Titre</h2>
+
+        <div id="modalFields"></div>
+
+        <p class="modal-error hidden" id="modalError"></p>
+
+        <div class="modal-actions">
+            <button type="button" id="modalCancel">Annuler</button>
+            <button type="submit" class="primary">Valider</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

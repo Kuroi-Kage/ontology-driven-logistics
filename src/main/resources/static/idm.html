@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FlexChain - Terrain IDM</title>
+
+    <link rel="stylesheet" href="idm.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        <strong>FLEXCHAIN</strong>
+        <span>Terrain IDM</span>
+    </div>
+
+    <nav>
+        <a href="index.html">🎮 Terrain SMA</a>
+        <a class="selected" href="idm.html">🧩 Terrain IDM</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <section class="control-bar">
+
+        <div>
+            <h1>🧩 Terrain de jeu IDM</h1>
+
+            <p>
+                Modèle → Lexer → Parser → Validation → Génération Java
+            </p>
+        </div>
+
+        <div class="buttons">
+
+            <button onclick="loadSample()">
+                📄 Charger modèle
+            </button>
+
+            <button
+                class="run"
+                onclick="runIdm()"
+            >
+                ▶ EXÉCUTER IDM
+            </button>
+
+            <button
+                id="deployBtn"
+                class="run deploy"
+                onclick="deployIdm()"
+                disabled
+            >
+                🚀 Déployer vers le SMA
+            </button>
+
+        </div>
+
+        <div id="deployMessage" class="deploy-message"></div>
+
+    </section>
+
+    <section class="playground">
+
+        <!-- SOURCE -->
+
+        <div class="source-box">
+
+            <div class="box-title">
+                <span>📄</span>
+                <strong>FlexNet</strong>
+            </div>
+
+            <textarea
+                id="source"
+                spellcheck="false"
+                placeholder="Ton modèle .flexnet..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- TERRAIN CENTRAL -->
+
+        <div class="field">
+
+            <div class="field-title">
+                PIPELINE IDM
+            </div>
+
+
+            <!-- LIGNE DE CHEMIN -->
+
+            <div class="path"></div>
+
+
+            <!-- NODE SOURCE -->
+
+            <div
+                class="node source-node"
+                id="node-source"
+            >
+
+                <div class="node-icon">
+                    📄
+                </div>
+
+                <strong>Modèle</strong>
+
+                <small>
+                    FlexNet
+                </small>
+
+            </div>
+
+
+            <!-- NODE LEXER -->
+
+            <div
+                class="node"
+                id="node-lexer"
+            >
+
+                <div class="node-icon">
+                    🔵
+                </div>
+
+                <strong>Lexer</strong>
+
+                <small>
+                    Tokens
+                </small>
+
+            </div>
+
+
+            <!-- NODE PARSER -->
+
+            <div
+                class="node"
+                id="node-parser"
+            >
+
+                <div class="node-icon">
+                    🟣
+                </div>
+
+                <strong>Parser</strong>
+
+                <small>
+                    AST
+                </small>
+
+            </div>
+
+
+            <!-- NODE VALIDATOR -->
+
+            <div
+                class="node"
+                id="node-validator"
+            >
+
+                <div class="node-icon">
+                    🟢
+                </div>
+
+                <strong>Validator</strong>
+
+                <small>
+                    Modèle valide
+                </small>
+
+            </div>
+
+
+            <!-- NODE MODEL -->
+
+            <div
+                class="node"
+                id="node-model"
+            >
+
+                <div class="node-icon">
+                    🟡
+                </div>
+
+                <strong>NetworkModel</strong>
+
+                <small>
+                    Modèle
+                </small>
+
+            </div>
+
+
+            <!-- NODE GENERATOR -->
+
+            <div
+                class="node"
+                id="node-generator"
+            >
+
+                <div class="node-icon">
+                    🟠
+                </div>
+
+                <strong>Generator</strong>
+
+                <small>
+                    Java
+                </small>
+
+            </div>
+
+
+            <!-- NODE JAVA -->
+
+            <div
+                class="node java-node"
+                id="node-java"
+            >
+
+                <div class="node-icon">
+                    ☕
+                </div>
+
+                <strong>Java</strong>
+
+                <small>
+                    DataLoader
+                </small>
+
+            </div>
+
+
+            <!-- PAQUET QUI SE DEPLACE -->
+
+            <div
+                id="packet"
+                class="packet"
+            >
+                ◆
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="fieldMessage"
+                class="field-message"
+            >
+                Prêt à exécuter le pipeline IDM
+            </div>
+
+        </div>
+
+
+        <!-- RESULTAT -->
+
+        <div class="result-box">
+
+            <div class="box-title">
+
+                <span>🔎</span>
+
+                <strong>
+                    Production courante
+                </strong>
+
+            </div>
+
+
+            <div
+                id="resultContent"
+                class="result-content"
+            >
+
+                <div class="empty-result">
+
+                    <div>
+                        ◇
+                    </div>
+
+                    <p>
+                        Lance le pipeline pour voir
+                        ce que chaque étape produit.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section
+        id="modelStats"
+        class="stats hidden"
+    >
+
+        <div>
+            <span>Réseau</span>
+            <strong id="networkName">-</strong>
+        </div>
+
+        <div>
+            <span>Entrepôts</span>
+            <strong id="warehouseCount">0</strong>
+        </div>
+
+        <div>
+            <span>Camions</span>
+            <strong id="truckCount">0</strong>
+        </div>
+
+        <div>
+            <span>Commandes</span>
+            <strong id="orderCount">0</strong>
+        </div>
+
+    </section>
+
+    <section class="generated">
+
+        <div class="generated-header">
+
+            <div>
+
+                <h2>☕ Code Java généré</h2>
+
+                <span id="className">
+                    En attente...
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <pre id="javaOutput">
+Code 
+        </pre>
+
+    </section>
+
+</main>
+
+
+<script src="idm.js"></script>
+
+</body>
+
+</html>

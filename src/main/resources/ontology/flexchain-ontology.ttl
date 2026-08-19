@@ -1,0 +1,80 @@
+@prefix flex: <http://flexchain.com/ontology#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontologie FlexChain - contraintes de transport (pilier Ontologie)
+#
+# Cette ontologie formalise le vocabulaire metier necessaire au
+# raisonnement semantique sur une commande (Order) : fragilite,
+# temperature, et les consequences operationnelles qui en decoulent
+# (changement de camion, besoin de refrigeration).
+#
+# Elle constitue la partie terminologique (TBox). Les faits propres a
+# chaque commande (ABox) sont injectes dynamiquement a l'execution par
+# OntologyReasoningService, a partir des donnees persistees en base.
+
+<http://flexchain.com/ontology>
+    a owl:Ontology ;
+    rdfs:label "Ontologie FlexChain - contraintes de transport" ;
+    rdfs:comment "Vocabulaire et regles de raisonnement pour l'adaptation du transport aux caracteristiques d'une commande." .
+
+
+# Classes
+
+flex:Order
+    a owl:Class ;
+    rdfs:label "Commande" ;
+    rdfs:comment "Une commande a livrer, potentiellement soumise a des contraintes de transport." .
+
+flex:Truck
+    a owl:Class ;
+    rdfs:label "Camion" .
+
+flex:RefrigeratedTruck
+    a owl:Class ;
+    rdfs:subClassOf flex:Truck ;
+    rdfs:label "Camion refrigere" ;
+    rdfs:comment "Sous-classe de Truck equipee d'une chaine du froid, compatible avec les commandes fragiles exposees a une temperature elevee." .
+
+# Proprietes de donnees (ABox renseignee dynamiquement)
+
+flex:isFragile
+    a owl:DatatypeProperty ;
+    rdfs:domain flex:Order ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "est fragile" .
+
+flex:currentTemperatureCelsius
+    a owl:DatatypeProperty ;
+    rdfs:domain flex:Order ;
+    rdfs:range xsd:double ;
+    rdfs:label "temperature actuelle (Celsius)" .
+
+
+# Proprietes derivees (produites par le moteur de regles, jamais
+# renseignees a la main : elles sont le resultat de l'inference)
+
+flex:requiresTruckChange
+    a owl:DatatypeProperty ;
+    rdfs:domain flex:Order ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "necessite un changement de camion" ;
+    rdfs:comment "Propriete inferee par la regle fragileHighTemperatureRule." .
+
+flex:requiresRefrigeratedTruck
+    a owl:DatatypeProperty ;
+    rdfs:domain flex:Order ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "necessite un camion refrigere" ;
+    rdfs:comment "Propriete inferee par la regle refrigerationNeededRule, chainee sur requiresTruckChange." .
+
+
+# Constante metier documentee (utilisee textuellement par les regles,
+# rappelee ici pour la tracabilite du modele)
+
+flex:fragileTemperatureThresholdCelsius
+    a owl:DatatypeProperty ;
+    rdfs:range xsd:double ;
+    rdfs:comment "Seuil au-dela duquel un produit fragile est considere a risque : 25 degres Celsius." .

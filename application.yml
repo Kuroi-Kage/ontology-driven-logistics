@@ -1,0 +1,27 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flexchain
+    username: postgres
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+flexchain:
+  capital:
+    budget: 5000
+  orchestrator:
+    enabled-by-default: true
+    interval-ms: 12000
+    probability: 0.5
