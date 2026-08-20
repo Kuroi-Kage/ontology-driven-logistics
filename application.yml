@@ -1,9 +1,9 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/flexchain
-    username: postgres
-    password: root
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/flexchain}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:}
 
   jpa:
     hibernate:
@@ -16,7 +16,7 @@ spring:
         format_sql: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 flexchain:
   capital:
