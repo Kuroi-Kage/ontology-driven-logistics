@@ -1,4 +1,4 @@
-# FlexChain
+# OntoLogistics
 
 Simulateur de réseau logistique qui combine quatre approches d'ingénierie logicielle dans un seul projet : un DSL maison compilé à la volée, un système multi-agents qui négocie tout seul, un moteur de raisonnement ontologique, et un algorithme de plus court chemin.
 
